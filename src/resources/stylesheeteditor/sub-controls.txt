@@ -1,0 +1,36 @@
+::add-line, 	QScrollBar
+::add-page, 	QScrollBar
+::branch, 	QTreeView
+::chunk, 	QProgressBar
+::close-button, QDockWidget, QTabBar
+::corner, 	QAbstractScrollArea
+::down-arrow, 	QComboBox, QHeaderView, QScrollBar,QSpinBox
+::down-button, 	QScrollBar, QSpinBox
+::drop-down, 	QComboBox
+::float-button, QDockWidget
+::groove, 	QSlider
+::indicator, 	QAbstractItemView, QCheckBox, QRadioButton, QMenu, QGroupBox
+::handle, 	QScrollBar, QSplitter, QSlider
+::icon, 	QAbstractItemView, QMenu
+::item, 	QAbstractItemView, QMenuBar, QMenu, QStatusBar
+::left-arrow,	QScrollBar
+::left-corner, 	QTabWidget, QTabWidget
+::menu-arrow, 	QToolButton
+::menu-button,	QToolButton
+::menu-indicator, QPushButton
+::right-arrow, 	QMenu, QScrollBar
+::pane,		QTabWidget
+::right-corner, QTabWidget
+::scroller,	QMenu, QTabBar
+::section, 	QHeaderView
+::separator, 	QMenu, QMainWindow
+::sub-line, 	QScrollBar
+::sub-page, 	QScrollBar
+::tab, 		QTabBar, QToolBox
+::tab-bar,	QTabWidget, QTabBar
+::tear,		QTabBar
+::tearoff,	QMenu
+::text,		QAbstractItemView
+::title,	QGroupBox, QDockWidget
+::up-arrow,	QHeaderView, QScrollBar, QSpinBox
+::up-button,	QSpinBox
