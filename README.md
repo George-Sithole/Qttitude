@@ -2,6 +2,7 @@ Qttitude
 ========
 
 Homepage: http://www.geovariant.com/qttitude
+To download binaries: http://www.geovariant.com/qttitude-download
 
 Introduction
 ------------
