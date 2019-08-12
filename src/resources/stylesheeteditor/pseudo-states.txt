@@ -1,0 +1,44 @@
+:active
+:adjoins-item, 	QTreeView
+:alternate, 	QAbstractItemView, QAbstractItemView
+:bottom, 	QTabBar
+:checked, 	QAbstractButton
+:closable, 	QDockWidget
+:closed, 	QTreeView
+:default, 	QPushButton
+:disabled
+:editable, 	QComboBox
+:edit-focus
+:enabled
+:exclusive, 	QActionGroup
+:first, 	QTabBar
+:flat, 		QPushButton
+:floatable, 	QDockWidget
+:focus
+:has-children, 	QTreeView
+:has-siblings, 	QTreeView
+:horizontal
+:hover
+:indeterminate, QCheckBox, QRadioButton
+:last, 		QTabBar
+:left, 		QTabBar
+:maximized, 	QMdiSubWindow
+:middle, 	QTabBar
+:minimized, 	QMdiSubWindow
+:movable, 	QDockWidget
+:no-frame, 	QSpinBox, QLineEdit
+:non-exclusive, QActionGroup
+:off
+:on
+:only-one,	QTabBar
+:open, 		QTreeView, QComboBox, QPushButton
+:next-selected, QTabBar
+:pressed
+:previous-selected, QTabBar
+:read-only, 	QLineEdit, QComboBox
+:right, 	QTabBar
+:selected, 	QTabBar, QMenu
+:top, 		QTabBar
+:unchecked
+:vertical
+:window

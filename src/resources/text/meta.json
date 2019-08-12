@@ -1,0 +1,10 @@
+{
+    "appname": "Qttitude",
+    "version": "0.8.0 Beta",
+    "copyright": "Copyright @ 2019 George Sithole",
+    "description": "[appname] is an application designed to style GUIs designed with <a href=https://www.qt.io>Qt Creator</a>.",
+    "website": "www.geovariant.com/qttitude",
+    "donationsite": "www.geovariant.com",
+    "liability": "This program is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.",
+    "licenseshort": "This is free software distributed under the terms of the GNU General Public License, GPL v3."
+}

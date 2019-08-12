@@ -1,0 +1,92 @@
+<RCC>
+    <qresource prefix="/icons">
+        <file>resources/icons/fontawesome-free-5.10.0-desktop/svgs/solid/arrow-alt-circle-down.svg</file>
+        <file>resources/icons/fontawesome-free-5.10.0-desktop/svgs/solid/arrow-alt-circle-left.svg</file>
+        <file>resources/icons/fontawesome-free-5.10.0-desktop/svgs/solid/arrow-alt-circle-right.svg</file>
+        <file>resources/icons/fontawesome-free-5.10.0-desktop/svgs/solid/arrow-alt-circle-up.svg</file>
+        <file>resources/icons/fontawesome-free-5.10.0-desktop/svgs/solid/arrow-circle-down.svg</file>
+        <file>resources/icons/fontawesome-free-5.10.0-desktop/svgs/solid/arrow-circle-left.svg</file>
+        <file>resources/icons/fontawesome-free-5.10.0-desktop/svgs/solid/arrow-circle-right.svg</file>
+        <file>resources/icons/fontawesome-free-5.10.0-desktop/svgs/solid/arrow-circle-up.svg</file>
+        <file>resources/icons/fontawesome-free-5.10.0-desktop/svgs/solid/check-circle.svg</file>
+        <file>resources/icons/fontawesome-free-5.10.0-desktop/svgs/solid/chevron-circle-down.svg</file>
+        <file>resources/icons/fontawesome-free-5.10.0-desktop/svgs/solid/chevron-circle-left.svg</file>
+        <file>resources/icons/fontawesome-free-5.10.0-desktop/svgs/solid/chevron-circle-right.svg</file>
+        <file>resources/icons/fontawesome-free-5.10.0-desktop/svgs/solid/chevron-circle-up.svg</file>
+        <file>resources/icons/fontawesome-free-5.10.0-desktop/svgs/solid/circle.svg</file>
+        <file>resources/icons/fontawesome-free-5.10.0-desktop/svgs/solid/circle-notch.svg</file>
+        <file>resources/icons/fontawesome-free-5.10.0-desktop/svgs/solid/dot-circle.svg</file>
+        <file>resources/icons/fontawesome-free-5.10.0-desktop/svgs/solid/exclamation-circle.svg</file>
+        <file>resources/icons/fontawesome-free-5.10.0-desktop/svgs/solid/file.svg</file>
+        <file>resources/icons/fontawesome-free-5.10.0-desktop/svgs/solid/file-alt.svg</file>
+        <file>resources/icons/fontawesome-free-5.10.0-desktop/svgs/solid/file-archive.svg</file>
+        <file>resources/icons/fontawesome-free-5.10.0-desktop/svgs/solid/file-audio.svg</file>
+        <file>resources/icons/fontawesome-free-5.10.0-desktop/svgs/solid/file-code.svg</file>
+        <file>resources/icons/fontawesome-free-5.10.0-desktop/svgs/solid/file-contract.svg</file>
+        <file>resources/icons/fontawesome-free-5.10.0-desktop/svgs/solid/file-csv.svg</file>
+        <file>resources/icons/fontawesome-free-5.10.0-desktop/svgs/solid/file-download.svg</file>
+        <file>resources/icons/fontawesome-free-5.10.0-desktop/svgs/solid/file-download-as.svg</file>
+        <file>resources/icons/fontawesome-free-5.10.0-desktop/svgs/solid/file-excel.svg</file>
+        <file>resources/icons/fontawesome-free-5.10.0-desktop/svgs/solid/file-export.svg</file>
+        <file>resources/icons/fontawesome-free-5.10.0-desktop/svgs/solid/file-export2.svg</file>
+        <file>resources/icons/fontawesome-free-5.10.0-desktop/svgs/solid/file-export3.svg</file>
+        <file>resources/icons/fontawesome-free-5.10.0-desktop/svgs/solid/file-image.svg</file>
+        <file>resources/icons/fontawesome-free-5.10.0-desktop/svgs/solid/file-import.svg</file>
+        <file>resources/icons/fontawesome-free-5.10.0-desktop/svgs/solid/file-import2.svg</file>
+        <file>resources/icons/fontawesome-free-5.10.0-desktop/svgs/solid/file-invoice.svg</file>
+        <file>resources/icons/fontawesome-free-5.10.0-desktop/svgs/solid/file-invoice-dollar.svg</file>
+        <file>resources/icons/fontawesome-free-5.10.0-desktop/svgs/solid/file-medical.svg</file>
+        <file>resources/icons/fontawesome-free-5.10.0-desktop/svgs/solid/file-medical-alt.svg</file>
+        <file>resources/icons/fontawesome-free-5.10.0-desktop/svgs/solid/file-pdf.svg</file>
+        <file>resources/icons/fontawesome-free-5.10.0-desktop/svgs/solid/file-powerpoint.svg</file>
+        <file>resources/icons/fontawesome-free-5.10.0-desktop/svgs/solid/file-prescription.svg</file>
+        <file>resources/icons/fontawesome-free-5.10.0-desktop/svgs/solid/file-signature.svg</file>
+        <file>resources/icons/fontawesome-free-5.10.0-desktop/svgs/solid/file-upload.svg</file>
+        <file>resources/icons/fontawesome-free-5.10.0-desktop/svgs/solid/file-video.svg</file>
+        <file>resources/icons/fontawesome-free-5.10.0-desktop/svgs/solid/file-word.svg</file>
+        <file>resources/icons/fontawesome-free-5.10.0-desktop/svgs/solid/info-circle.svg</file>
+        <file>resources/icons/fontawesome-free-5.10.0-desktop/svgs/solid/minus-circle.svg</file>
+        <file>resources/icons/fontawesome-free-5.10.0-desktop/svgs/solid/pause-circle.svg</file>
+        <file>resources/icons/fontawesome-free-5.10.0-desktop/svgs/solid/play-circle.svg</file>
+        <file>resources/icons/fontawesome-free-5.10.0-desktop/svgs/solid/plus-circle.svg</file>
+        <file>resources/icons/fontawesome-free-5.10.0-desktop/svgs/solid/question-circle.svg</file>
+        <file>resources/icons/fontawesome-free-5.10.0-desktop/svgs/solid/stop-circle.svg</file>
+        <file>resources/icons/fontawesome-free-5.10.0-desktop/svgs/solid/times-circle.svg</file>
+        <file>resources/icons/fontawesome-free-5.10.0-desktop/svgs/solid/user-circle.svg</file>
+        <file>resources/icons/fontawesome-free-5.10.0-desktop/svgs/solid/camera.svg</file>
+        <file>resources/icons/fontawesome-free-5.10.0-desktop/svgs/solid/camera-retro.svg</file>
+        <file>resources/icons/fontawesome-free-5.10.0-desktop/svgs/solid/columns.svg</file>
+        <file>resources/icons/fontawesome-free-5.10.0-desktop/svgs/solid/magic.svg</file>
+        <file>resources/icons/fontawesome-free-5.10.0-desktop/svgs/solid/sync.svg</file>
+        <file>resources/icons/fontawesome-free-5.10.0-desktop/svgs/solid/sync-alt.svg</file>
+        <file>resources/icons/fontawesome-free-5.10.0-desktop/svgs/solid/trash.svg</file>
+        <file>resources/icons/fontawesome-free-5.10.0-desktop/svgs/solid/trash-alt.svg</file>
+        <file>resources/icons/fontawesome-free-5.10.0-desktop/svgs/solid/trash-restore.svg</file>
+        <file>resources/icons/fontawesome-free-5.10.0-desktop/svgs/solid/trash-restore-alt.svg</file>
+        <file>resources/icons/fontawesome-free-5.10.0-desktop/svgs/solid/chevron-down.svg</file>
+        <file>resources/icons/fontawesome-free-5.10.0-desktop/svgs/solid/chevron-left.svg</file>
+        <file>resources/icons/fontawesome-free-5.10.0-desktop/svgs/solid/chevron-right.svg</file>
+        <file>resources/icons/fontawesome-free-5.10.0-desktop/svgs/solid/chevron-up.svg</file>
+        <file>resources/icons/fontawesome-free-5.10.0-desktop/svgs/solid/eraser.svg</file>
+        <file>resources/icons/fontawesome-free-5.10.0-desktop/svgs/solid/paint-brush.svg</file>
+        <file>resources/icons/fontawesome-free-5.10.0-desktop/svgs/solid/paint-roller.svg</file>
+        <file>resources/icons/fontawesome-free-5.10.0-desktop/svgs/solid/random.svg</file>
+        <file alias="icon_turqosie.png">resources/icons/icon_turqoise.png</file>
+    </qresource>
+    <qresource prefix="/stylesheeteditor">
+        <file alias="style_sheet.qss">resources/stylesheeteditor/style_sheet.qss</file>
+        <file alias="icons.txt">resources/stylesheeteditor/icons.txt</file>
+        <file alias="properties.txt">resources/stylesheeteditor/properties.txt</file>
+        <file alias="pseudo-states.txt">resources/stylesheeteditor/pseudo-states.txt</file>
+        <file alias="sub-controls.txt">resources/stylesheeteditor/sub-controls.txt</file>
+        <file alias="widgets.txt">resources/stylesheeteditor/widgets.txt</file>
+    </qresource>
+    <qresource prefix="/info">
+        <file alias="license.txt">LICENSE.txt</file>
+        <file alias="meta.json">resources/text/meta.json</file>
+    </qresource>
+    <qresource prefix="/splash">
+        <file alias="logo_green.png">resources/splash/logo_green.png</file>
+        <file alias="logo_turquoise.png">resources/splash/logo_turqoise.png</file>
+    </qresource>
+</RCC>

@@ -1,0 +1,246 @@
+QWidget#MainWindow
+{
+background: LightGrey;
+padding: 6px;
+margin: 6px;
+}
+
+/* ---------------------------------------------------------- */
+
+QWidget#StyleSheetEditorWidget QFrame#frameControl
+{
+    background-color: LightGrey;
+}
+
+QWidget#StyleSheetEditorWidget QLineEdit#lineEditFilename
+{
+    background-color: LightGrey;
+}
+
+QWidget#MainWindow QFrame#frameUiFiles,
+QWidget#StyleSheetEditorWidget QFrame#frameControl,
+QWidget#StyleSheetEditorWidget QFrame#frameVars,
+QWidget#StyleSheetEditorWidget QFrame#frameSnippets,
+QWidget#StyleSheetEditorWidget QPushButton#btnApplyStyleSheet,
+QWidget#StyleSheetEditorWidget QPushButton#btnClear,
+QWidget#StyleSheetEditorWidget QPushButton#btnAddVar,
+QWidget#StyleSheetEditorWidget QPushButton#btnVarUp,
+QWidget#StyleSheetEditorWidget QPushButton#btnVarDown,
+QWidget#StyleSheetEditorWidget QPushButton#btnRemoveVar,
+QWidget#StyleSheetEditorWidget QPushButton#btnOpen,
+QWidget#StyleSheetEditorWidget QPushButton#btnSave,
+QWidget#StyleSheetEditorWidget QPushButton#btnSaveAs,
+QWidget#StyleSheetEditorWidget QPushButton#btnAddPage,
+QWidget#StyleSheetEditorWidget QPushButton#btnPageDown,
+QWidget#StyleSheetEditorWidget QPushButton#btnPageUp,
+QWidget#StyleSheetEditorWidget QPushButton#btnRemovePage,
+QWidget#StyleSheetEditorWidget QPushButton#btnColorSchemeFromImage,
+QWidget#StyleSheetEditorWidget QPushButton#btnRearrange,
+QWidget#StyleSheetEditorWidget QPushButton#btnRandomColorScheme,
+QWidget#StyleSheetEditorWidget QPushButton#btnRandomShuffle,
+QWidget#StyleSheetEditorWidget QPushButton#btnAddSnippet,
+QWidget#StyleSheetEditorWidget QPushButton#btnSnippetUp,
+QWidget#StyleSheetEditorWidget QPushButton#btnSnippetDown,
+QWidget#StyleSheetEditorWidget QPushButton#btnRemoveSnippet,
+QPushButton#btnAddUiFile,
+QPushButton#btnRemoveUiFile,
+QPushButton#btnBrowse,
+QPushButton#btnStartProcess
+{
+    background-color: silver; /*silver*/
+    border: 0px solid LightGrey;
+    /* min-width: 23px; */
+    min-height: 20px;
+    padding: 2px;
+}
+
+QWidget#StyleSheetEditorWidget QPushButton#btnAddPage,
+QWidget#StyleSheetEditorWidget QPushButton#btnPageDown,
+QWidget#StyleSheetEditorWidget QPushButton#btnPageUp,
+QWidget#StyleSheetEditorWidget QPushButton#btnRemovePage
+{
+    max-width: 40px;
+}
+
+QPushButton#btnBrowse
+{
+    min-width: 22px;
+}
+
+QWidget#StyleSheetEditorWidget QPushButton#btnColorSchemeFromImage
+{
+icon-size: 20px;
+}
+
+QWidget#StyleSheetEditorWidget QPushButton#btnApplyStyleSheet:Pressed,
+QWidget#StyleSheetEditorWidget QPushButton#btnClear:Pressed,
+QWidget#StyleSheetEditorWidget QPushButton#btnAddVar:Pressed,
+QWidget#StyleSheetEditorWidget QPushButton#btnVarUp:Pressed,
+QWidget#StyleSheetEditorWidget QPushButton#btnVarDown:Pressed,
+QWidget#StyleSheetEditorWidget QPushButton#btnRemove:Pressed,
+QWidget#StyleSheetEditorWidget QPushButton#btnOpen:Pressed,
+QWidget#StyleSheetEditorWidget QPushButton#btnSave:Pressed,
+QWidget#StyleSheetEditorWidget QPushButton#btnSaveAs:Pressed,
+QWidget#StyleSheetEditorWidget QPushButton#btnAddPage:Pressed,
+QWidget#StyleSheetEditorWidget QPushButton#btnPageDown:Pressed,
+QWidget#StyleSheetEditorWidget QPushButton#btnPageUp:Pressed,
+QWidget#StyleSheetEditorWidget QPushButton#btnRemovePage:Pressed,
+QWidget#StyleSheetEditorWidget QPushButton#btnColorSchemeFromImage:Pressed,
+QWidget#StyleSheetEditorWidget QPushButton#btnRearrange:Pressed,
+QWidget#StyleSheetEditorWidget QPushButton#btnRandomColorScheme:Pressed,
+QWidget#StyleSheetEditorWidget QPushButton#btnRandomShuffle:Pressed,
+QWidget#StyleSheetEditorWidget QPushButton#btnAddSnippet:Pressed,
+QWidget#StyleSheetEditorWidget QPushButton#btnSnippetUp:Pressed,
+QWidget#StyleSheetEditorWidget QPushButton#btnSnippetDown:Pressed,
+QWidget#StyleSheetEditorWidget QPushButton#btnRemoveSnippet:Pressed,
+QPushButton#btnBrowse:Pressed,
+QPushButton#btnStartProcess:Pressed
+{
+    background-color: Gainsboro;
+    border: 1px solid LightGrey;
+    /* min-width: 23px; */
+    min-height: 20px;
+}
+
+/* ---------------------------------------------------------- */
+
+QWidget#StyleSheetEditorWidget QPlainTextEdit
+{
+    background-color: White;
+    border: 0px solid Silver;
+}
+
+/* ---------------------------------------------------------- */
+
+/*QWidget#StyleSheetEditorWidget */
+QHeaderView::section
+{
+    background-color: DimGray;
+    color: White;
+    padding: 2px;
+    padding-left: 4px;
+    border: 1px solid Silver;
+    border-left: 0px solid Silver;
+}
+
+/* ---------------------------------------------------------- */
+
+QWidget#StyleSheetEditorWidget QListView
+{
+    background-color: White;
+    border-left: 1px solid Silver;
+    /*max-width: 150px;*/
+}
+
+QWidget#StyleSheetEditorWidget QListView::item
+{
+    border: 0px solid LightGrey;
+    border-bottom: 1px solid LightGrey;
+    border-Left: 1px solid LightGrey;
+    color: Black;
+}
+
+QWidget#StyleSheetEditorWidget QListView::item:selected
+{
+    background-color: LightBlue;
+    border: 0px solid LightGrey;
+    border-bottom: 1px solid LightSteelBlue;
+    border-Left: 1px solid LightGrey;
+    color: Black;
+}
+
+/* ---------------------------------------------------------- */
+
+QWidget#StyleSheetEditorWidget QTreeView,
+QTreeView#treeViewFiles,
+QTreeView#treeViewAppWidgets
+{
+    background-color: White;
+    border: 0px solid Silver;
+}
+
+QWidget#StyleSheetEditorWidget QTreeView::item,
+QTreeView#treeViewAppWidgets::item
+{
+    border: 1px solid LightGrey;
+    border-top: 0px solid LightGrey;
+    border-left: 0px solid LightGrey;
+    color: Black;
+}
+
+QWidget#StyleSheetEditorWidget QTreeView::item:selected,
+QTreeView#treeViewAppWidgets::item:selected
+{
+    background-color: LightBlue;
+    border: 1px solid LightSteelBlue;
+    border-top: 0px solid LightGrey;
+    border-left: 0px solid LightGrey;
+    color: Black;
+}
+
+/* ---------------------------------------------------------- */
+
+QWidget#StyleSheetEditorWidget QComboBox
+{
+    border: 1px solid gray;
+    padding: 1px 9px 1px 3px;
+}
+
+QWidget#StyleSheetEditorWidget QComboBox:editable
+{
+    background: white;
+}
+
+QWidget#StyleSheetEditorWidget QComboBox:!editable,
+QWidget#StyleSheetEditorWidget QComboBox::drop-down:editable
+{
+    background: white;
+}
+
+QWidget#StyleSheetEditorWidget QComboBox:!editable:on,
+QWidget#StyleSheetEditorWidget QComboBox::drop-down:editable:on
+{
+    background: white;
+}
+
+QWidget#StyleSheetEditorWidget QComboBox::drop-down
+{
+    background: silver;
+    subcontrol-origin: padding;
+    subcontrol-position: top right;
+    width: 20px;
+
+    border-left: 1px solid darkgray;
+}
+
+QWidget#StyleSheetEditorWidget QComboBox::down-arrow
+{
+    image: url(":/icons/down_arrow.png");
+}
+
+QWidget#StyleSheetEditorWidget QComboBox QAbstractItemView
+{
+    border: 2px solid darkgray;
+    selection-background-color: CadetBlue;
+}
+
+/* ---------------------------------------------------------- */
+
+QWidget#StyleSheetEditorWidget QCheckBox
+{
+    padding: 2px 2px 1px 4px;
+}
+
+QWidget#StyleSheetEditorWidget QCheckBox#checkBoxLive
+{
+    background-color: LightGrey;
+    min-height: 20px;
+}
+
+/* ---------------------------------------------------------- */
+
+QLabel#labelApplication
+{
+    padding-left: 3px;
+    padding-right: 3px;
+}
