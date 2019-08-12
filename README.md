@@ -47,5 +47,8 @@ Basically, you have to:
 - run the project. As simple as that!
 - enjoy!
 
+Supporting the project
+----------------------
 
-
+If you want to help in the development of Qttitude, you can make donations via Patreon Thanks!
+<a href="https://www.patreon.com/bePatron?u=23149953" data-patreon-widget-type="become-patron-button">Become a Patron!</a><script async src="https://c6.patreon.com/becomePatronButton.bundle.js"></script>
