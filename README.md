@@ -1,7 +1,7 @@
 Qttitude
 ========
 
-Homepage: http://www.geovariant.com/qttitude.hmtl
+Homepage: http://www.geovariant.com/qttitude.html
 
 To download binaries: http://www.geovariant.com/qttitude-download.html
 
