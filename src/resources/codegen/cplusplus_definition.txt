@@ -1,0 +1,18 @@
+// Code generate on %0
+
+#ifndef CODEGEN_SETUP_H
+#define CODEGEN_SETUP_H
+
+#include "ui_%1.h"
+
+class %2_Styling
+{
+public:
+    static setupUi(Ui::%2* ui)
+    {
+%3
+    }
+};
+
+
+#endif // CODEGEN_SETUP_H

@@ -52,7 +52,7 @@ signals:
 public slots:
 
 protected:
-    QString breadCrumb(const QModelIndex& index) const;
+    QStringList breadCrumb(const QModelIndex& index) const;
 };
 
 #endif // DRAGITEMMODEL_H

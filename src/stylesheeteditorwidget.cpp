@@ -41,19 +41,20 @@
 #include <QFile>
 #include <QInputDialog>
 #include <QStandardItemModel>
+#include <QStringListModel>
 #include <QSyntaxHighlighter>
 #include <QFileDialog>
 #include <QPlainTextEdit>
 #include <QUuid>
 #include <QDebug>
 #include <QCompleter>
-#include <QStringListModel>
 #include <QMainWindow>
 #include <QMessageBox>
 #include <QSlider>
 #include <QJsonDocument>
 #include <QJsonArray>
 #include <QJsonObject>
+#include <QListView>
 
 
 // Local Libraries
@@ -65,6 +66,7 @@
 #include "colorschemegenerator.h"
 #include "dialogcolorspec.h"
 #include "workspace.h"
+#include "dialogpagecreator.h"
 
 
 
@@ -439,7 +441,7 @@ void StyleSheetEditorWidget::addPagesFromJson(const QJsonValue& snippets_value)
     }
 }
 
-void StyleSheetEditorWidget::saveStyleSheet(const QString& filename)
+bool StyleSheetEditorWidget::saveStyleSheet(const QString& filename)
 {
 //    QString qssfilename = QString("%0.qss").arg(QFileInfo(m_filename).baseName());
 //    this->saveStyleSheet(qssfilename);
@@ -447,22 +449,28 @@ void StyleSheetEditorWidget::saveStyleSheet(const QString& filename)
     // test if the local filename is empty
     QString local_filename = filename;
     if(local_filename.isEmpty()) {
-        local_filename = QFileDialog::getSaveFileName(this, tr("Stylesheet File"), this->m_qss_filename, tr("Style File (*.qss)"));
+        local_filename = QFileDialog::getSaveFileName(this, tr("Stylesheet File"), this->m_qss_filename, tr("Style File, *.qss (*.qss)"));
         if(local_filename.isEmpty()) {
-            return;
-        }
-        else {
+            qDebug() << "Error: saveStyleSheet";
+            return false;
+        } else {
             this->m_qss_filename = local_filename;
         }
     }
 
     // save qss
-    QFile file(filename);
+    QFile file(local_filename);
     if(file.open(QIODevice::WriteOnly | QIODevice::Text))
     {
         file.write(this->generateStyleSheet().toLatin1());
+        return true;
+    } else {
+        qDebug() << "Error: saveStyleSheet. Failed to save file " << local_filename;
     }
+
     file.close();
+
+    return false;
 }
 
 
@@ -782,7 +790,7 @@ void StyleSheetEditorWidget::on_btnVarDown_clicked()
 void StyleSheetEditorWidget::generateColorSchemeFromImageFile()
 {
     QString filename = QFileDialog::getOpenFileName(this, tr("Open Image File"),
-                                                    "./", tr("Images (*.png *.xpm *.jpg)"));
+                                                    "./", tr("Images, *.png *.xpm *.jpg (*.png *.xpm *.jpg)"));
 
     if(filename.isEmpty())
        return;
@@ -1356,3 +1364,12 @@ void StyleSheetEditorWidget::reset()
     this->m_text_editor->clear();
 }
 
+void StyleSheetEditorWidget::on_btnAddBoilerPlatePages_clicked()
+{
+    DialogPageCreator dlg;
+    if(dlg.exec()){
+        for(QString name: dlg.pageNames()){
+            this->addPage(name, "", true);
+        }
+    }
+}

@@ -1,0 +1,43 @@
+Abstract, BurlyWood
+
+Windows, Silver
+DockWidget, Gainsboro
+MainWindow, Gainsboro
+ScrollBar, Gainsboro
+SizeGrip, Gainsboro
+Splitter, Gainsboro
+StatusBar, Gainsboro
+ToolTip, Gainsboro
+
+Container Widgets, Gold
+Frame, LemonChiffon
+GroupBox, LemonChiffon
+ScrollArea, LemonChiffon
+TabWidget and TabBar, LemonChiffon
+ToolBox, LemonChiffon
+Widget, LemonChiffon
+
+Menus and Toolbars, Thistle
+Menu, Lavender
+MenuBar, Lavender
+ToolBar, Lavender
+
+Input Widgets, LawnGreen
+CheckBox, GreenYellow
+ComboBox, GreenYellow
+LineEdit, GreenYellow
+PushButton, GreenYellow
+RadioButton, GreenYellow
+Slider, GreenYellow
+SpinBox, GreenYellow
+ToolButton, GreenYellow
+
+Item Views, Turquoise
+HeaderView, PaleTurquoise
+ListView, PaleTurquoise
+TableView, PaleTurquoise
+TreeView, PaleTurquoise
+
+Display Widgets, LightSalmon
+Label, MistyRose
+ProgressBar, MistyRose

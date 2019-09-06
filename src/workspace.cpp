@@ -79,9 +79,9 @@ QString Workspace::aboutHTML()
                    "<head/>"
                    "<body>"
                    "<p><b>" + Workspace::appName() + " " + Workspace::version() + "</b></p>"
-                   "<p>" + Workspace::copyright() + "</b></p>"
-                   "<p>" + Workspace::licenseShort() + "</b></p>"
-                   "<p>For more information about this application visit our <a href=https://" + Workspace::website().trimmed() + ">website</a></P>"
+                   "<p>" + Workspace::copyright() + "</p>"
+                   "<p>" + Workspace::licenseShort() + "</p>"
+                   "<p>For more information about this application visit our <a href=https://" + Workspace::website().trimmed() + ">website</a></p>"
                    "<p>Want to help? Show some love by <a href=http://" + Workspace::donationsite().trimmed() + ">making a donation</a></p>"
                    "</body>"
                    "</html>";

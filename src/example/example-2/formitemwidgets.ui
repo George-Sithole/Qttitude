@@ -1,0 +1,320 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>FormItemWidgets</class>
+ <widget class="QWidget" name="FormItemWidgets">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>776</width>
+    <height>494</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>Form</string>
+  </property>
+  <layout class="QGridLayout" name="gridLayout_2">
+   <item row="0" column="0">
+    <widget class="QLabel" name="label">
+     <property name="text">
+      <string>List Widget</string>
+     </property>
+    </widget>
+   </item>
+   <item row="0" column="1" rowspan="2">
+    <layout class="QGridLayout" name="gridLayout">
+     <item row="0" column="0">
+      <widget class="QLabel" name="label_2">
+       <property name="text">
+        <string>Tree Widget</string>
+       </property>
+      </widget>
+     </item>
+     <item row="1" column="0">
+      <widget class="QTreeWidget" name="treeWidget">
+       <column>
+        <property name="text">
+         <string>Column 1</string>
+        </property>
+       </column>
+       <column>
+        <property name="text">
+         <string>Column 2</string>
+        </property>
+       </column>
+       <column>
+        <property name="text">
+         <string>Column 3</string>
+        </property>
+       </column>
+       <item>
+        <property name="text">
+         <string>Item 1,1</string>
+        </property>
+        <property name="text">
+         <string>Item 1,2</string>
+        </property>
+        <property name="text">
+         <string>Item 1,3</string>
+        </property>
+       </item>
+       <item>
+        <property name="text">
+         <string>Item 2,1</string>
+        </property>
+        <property name="text">
+         <string>Item 2,2</string>
+        </property>
+        <property name="text">
+         <string>Item 2,3</string>
+        </property>
+       </item>
+       <item>
+        <property name="text">
+         <string>Item 3,1</string>
+        </property>
+        <property name="text">
+         <string>Item 3,2</string>
+        </property>
+        <property name="text">
+         <string>Item 3,3</string>
+        </property>
+       </item>
+       <item>
+        <property name="text">
+         <string>Item 4,1</string>
+        </property>
+        <property name="text">
+         <string>Item 4,2</string>
+        </property>
+        <property name="text">
+         <string>Item 4,3</string>
+        </property>
+       </item>
+      </widget>
+     </item>
+    </layout>
+   </item>
+   <item row="0" column="2">
+    <widget class="QLabel" name="label_3">
+     <property name="text">
+      <string>Table Widget</string>
+     </property>
+    </widget>
+   </item>
+   <item row="1" column="0">
+    <widget class="QListWidget" name="listWidget">
+     <property name="viewMode">
+      <enum>QListView::ListMode</enum>
+     </property>
+     <item>
+      <property name="text">
+       <string>Item 1</string>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string>Item 2</string>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string>Item 3</string>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string>Item 4</string>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string>Item 5</string>
+      </property>
+     </item>
+    </widget>
+   </item>
+   <item row="1" column="2">
+    <widget class="QTableWidget" name="tableWidget">
+     <row>
+      <property name="text">
+       <string>Row 1</string>
+      </property>
+     </row>
+     <row>
+      <property name="text">
+       <string>Row 2</string>
+      </property>
+     </row>
+     <row>
+      <property name="text">
+       <string>Row 3</string>
+      </property>
+     </row>
+     <row>
+      <property name="text">
+       <string>Row 4</string>
+      </property>
+     </row>
+     <row>
+      <property name="text">
+       <string>Row 5</string>
+      </property>
+     </row>
+     <column>
+      <property name="text">
+       <string>Col 1</string>
+      </property>
+     </column>
+     <column>
+      <property name="text">
+       <string>Col 2</string>
+      </property>
+     </column>
+     <column>
+      <property name="text">
+       <string>Col 3</string>
+      </property>
+     </column>
+     <column>
+      <property name="text">
+       <string>Col 4</string>
+      </property>
+     </column>
+     <column>
+      <property name="text">
+       <string>Col 5</string>
+      </property>
+     </column>
+     <item row="0" column="0">
+      <property name="text">
+       <string>1,1</string>
+      </property>
+     </item>
+     <item row="0" column="1">
+      <property name="text">
+       <string>1,2</string>
+      </property>
+     </item>
+     <item row="0" column="2">
+      <property name="text">
+       <string>1,3</string>
+      </property>
+     </item>
+     <item row="0" column="3">
+      <property name="text">
+       <string>1,4</string>
+      </property>
+     </item>
+     <item row="0" column="4">
+      <property name="text">
+       <string>1,5</string>
+      </property>
+     </item>
+     <item row="1" column="0">
+      <property name="text">
+       <string>2,1</string>
+      </property>
+     </item>
+     <item row="1" column="1">
+      <property name="text">
+       <string>2,2</string>
+      </property>
+     </item>
+     <item row="1" column="2">
+      <property name="text">
+       <string>2,3</string>
+      </property>
+     </item>
+     <item row="1" column="3">
+      <property name="text">
+       <string>2,4</string>
+      </property>
+     </item>
+     <item row="1" column="4">
+      <property name="text">
+       <string>2,5</string>
+      </property>
+     </item>
+     <item row="2" column="0">
+      <property name="text">
+       <string>3,1</string>
+      </property>
+     </item>
+     <item row="2" column="1">
+      <property name="text">
+       <string>3,2</string>
+      </property>
+     </item>
+     <item row="2" column="2">
+      <property name="text">
+       <string>3,3</string>
+      </property>
+     </item>
+     <item row="2" column="3">
+      <property name="text">
+       <string>3,4</string>
+      </property>
+     </item>
+     <item row="2" column="4">
+      <property name="text">
+       <string>3.5</string>
+      </property>
+     </item>
+     <item row="3" column="0">
+      <property name="text">
+       <string>4,1</string>
+      </property>
+     </item>
+     <item row="3" column="1">
+      <property name="text">
+       <string>4,2</string>
+      </property>
+     </item>
+     <item row="3" column="2">
+      <property name="text">
+       <string>4,3</string>
+      </property>
+     </item>
+     <item row="3" column="3">
+      <property name="text">
+       <string>4,4</string>
+      </property>
+     </item>
+     <item row="3" column="4">
+      <property name="text">
+       <string>4,5</string>
+      </property>
+     </item>
+     <item row="4" column="0">
+      <property name="text">
+       <string>5,1</string>
+      </property>
+     </item>
+     <item row="4" column="1">
+      <property name="text">
+       <string>5,2</string>
+      </property>
+     </item>
+     <item row="4" column="2">
+      <property name="text">
+       <string>5,3</string>
+      </property>
+     </item>
+     <item row="4" column="3">
+      <property name="text">
+       <string>5,4</string>
+      </property>
+     </item>
+     <item row="4" column="4">
+      <property name="text">
+       <string>5,5</string>
+      </property>
+     </item>
+    </widget>
+   </item>
+  </layout>
+ </widget>
+ <resources/>
+ <connections/>
+</ui>

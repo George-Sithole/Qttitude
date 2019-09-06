@@ -68,7 +68,9 @@ public:
     enum SchemeOrder{Reverse_Ordering, HSV_Ordering, HVS_Ordering, SVH_Ordering,
                      SHV_Ordering, VHS_Ordering, VSH_Ordering, Random_Ordering};
 
-    void saveStyleSheet(const QString& filename = "");
+    bool saveStyleSheet(const QString& filename = "");
+
+    QString styleSheetFilename(){return this->m_qss_filename;}
 
     void setMainWindow(QMainWindow* main_window);
 
@@ -151,6 +153,8 @@ private slots:
 
     void on_btnRemoveSnippet_clicked();
 
+    void on_btnAddBoilerPlatePages_clicked();
+
 protected:
     void addVariable(const QString& var_name, const QString& var_value, const bool& ischecked = true);
     void addSnippet(const QString& snippet_name, const QString& snippet_value, const bool& ischecked = true);
@@ -194,7 +198,7 @@ private:
 
     Highlighter* m_highlihter;
 
-    QString m_qss_filename; // TODO delete
+    QString m_qss_filename;
 
     int m_read_mode;
 

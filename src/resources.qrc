@@ -72,6 +72,20 @@
         <file>resources/icons/fontawesome-free-5.10.0-desktop/svgs/solid/paint-roller.svg</file>
         <file>resources/icons/fontawesome-free-5.10.0-desktop/svgs/solid/random.svg</file>
         <file alias="icon_turqosie.png">resources/icons/icon_turqoise.png</file>
+        <file>resources/icons/fontawesome-free-5.10.0-desktop/svgs/solid/bell.svg</file>
+        <file>resources/icons/fontawesome-free-5.10.0-desktop/svgs/solid/bell-slash.svg</file>
+        <file alias="bolt.svg">resources/icons/fontawesome-free-5.10.0-desktop/svgs/solid/bolt.svg</file>
+        <file alias="star.svg">resources/icons/fontawesome-free-5.10.0-desktop/svgs/solid/star.svg</file>
+        <file>resources/icons/fontawesome-free-5.10.0-desktop/svgs/solid/star-of-life.svg</file>
+        <file alias="cpp.svg">resources/icons/fontawesome-free-5.10.0-desktop/svgs/solid/cpp.svg</file>
+        <file alias="python.svg">resources/icons/fontawesome-free-5.10.0-desktop/svgs/solid/python.svg</file>
+        <file alias="cubes.svg">resources/icons/fontawesome-free-5.10.0-desktop/svgs/solid/cubes.svg</file>
+        <file alias="hashtag.svg">resources/icons/fontawesome-free-5.10.0-desktop/svgs/solid/hashtag.svg</file>
+        <file alias="list.svg">resources/icons/fontawesome-free-5.10.0-desktop/svgs/solid/list.svg</file>
+        <file alias="list-alt.svg">resources/icons/fontawesome-free-5.10.0-desktop/svgs/solid/list-alt.svg</file>
+        <file alias="list-ol.svg">resources/icons/fontawesome-free-5.10.0-desktop/svgs/solid/list-ol.svg</file>
+        <file alias="list-ul.svg">resources/icons/fontawesome-free-5.10.0-desktop/svgs/solid/list-ul.svg</file>
+        <file alias="th-list.svg">resources/icons/fontawesome-free-5.10.0-desktop/svgs/solid/th-list.svg</file>
     </qresource>
     <qresource prefix="/stylesheeteditor">
         <file alias="style_sheet.qss">resources/stylesheeteditor/style_sheet.qss</file>
@@ -80,6 +94,7 @@
         <file alias="pseudo-states.txt">resources/stylesheeteditor/pseudo-states.txt</file>
         <file alias="sub-controls.txt">resources/stylesheeteditor/sub-controls.txt</file>
         <file alias="widgets.txt">resources/stylesheeteditor/widgets.txt</file>
+        <file alias="pages.txt">resources/stylesheeteditor/pages.txt</file>
     </qresource>
     <qresource prefix="/info">
         <file alias="license.txt">LICENSE.txt</file>
@@ -88,5 +103,9 @@
     <qresource prefix="/splash">
         <file alias="logo_green.png">resources/splash/logo_green.png</file>
         <file alias="logo_turquoise.png">resources/splash/logo_turqoise.png</file>
+    </qresource>
+    <qresource prefix="/codegen">
+        <file alias="cplusplus_definition.txt">resources/codegen/cplusplus_definition.txt</file>
+        <file alias="python_definition.txt">resources/codegen/python_definition.txt</file>
     </qresource>
 </RCC>

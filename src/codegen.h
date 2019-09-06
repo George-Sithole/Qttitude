@@ -32,38 +32,42 @@
 **
 ****************************************************************************/
 
+#ifndef CODEGEN_H
+#define CODEGEN_H
+
 // Qt Libraries
-#include <QFile>
-#include <QFileInfo>
-
-// Local Libraries
-#include "project.h"
+#include <QString>
+#include <QLayout>
 
 
-Project::Project(QObject *parent) :
-    QObject(parent),
-    m_proj_filename(""),
-    m_qss_filename(""),
-    m_issaved(true)
+class QWidget;
+
+
+class CodeGen
 {
-}
+public:
+    CodeGen();
 
-void Project::reset()
-{
-    this->m_proj_filename = "";
-    this->m_qss_filename = "";
-    this->m_issaved = true;
-}
+    /** This member function returns the code filename
+     */
+    static QString codeFilename(const QString& filename, const QString& language);
 
-QString Project::workingDir()
-{
-    QString path = QFileInfo(this->m_proj_filename).path();
-    if(path.isEmpty()){
-        return "./";
-    } else {
-        return path;
-    }
-}
+    static QString formatString(const QString& filename);
 
+    static QString generate(QWidget* widget, QString language = "C++");
 
+protected:
+    static void parseWidget(QWidget* widget, QStringList& codelist, const QString& language);
 
+    static void parseLayout(QLayout* layout, QStringList& codelist, const QString& language);
+
+    static QString widgetCplusplus(QWidget* widget);
+
+    static QString layoutCplusplus(QLayout* layout);
+
+    static QString widgetPython(QWidget* widget);
+
+    static QString layoutPython(QLayout* layout);
+};
+
+#endif // CODEGEN_H

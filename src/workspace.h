@@ -53,9 +53,9 @@ class Workspace : public QObject
 public:
     explicit Workspace(QObject *parent = nullptr);
 
-    void addPath(const QString& key, const QString& path);
+//    void addPath(const QString& key, const QString& path);
 
-    static QString path(const QString& key);
+//    static QString path(const QString& key);
 
     QString colorSchemeFilename(){return m_color_scheme_filename;}
 
@@ -103,7 +103,7 @@ private:
      * The variable m_path is declared static to allow global access to file paths.
      * m_path is initialized in file workspace.cpp.
      */
-    static QHash<QString, QString> m_path;
+//    static QHash<QString, QString> m_path;
 };
 
 #endif // WORKSPACE_H

@@ -40,6 +40,7 @@
 #include <QMainWindow>
 #include <QProcess>
 #include <QMap>
+#include <QModelIndex>
 
 
 namespace Ui {
@@ -49,6 +50,7 @@ class MainWindow;
 
 class QCloseEvent;
 class QStandardItemModel;
+class QStandardItem;
 
 class Workspace;
 class Project;
@@ -56,6 +58,16 @@ class StyleSheetServer;
 class DragItemModel;
 class StyleSheetEditorWidget;
 
+
+struct AppObject
+{
+    QStandardItem* item_name;
+    QStandardItem* item_class;
+    QWidget* widget = nullptr;
+    QLayout* layout = nullptr;
+    QString obj_name = "";
+    QString obj_class = "";
+};
 
 class MainWindow : public QMainWindow
 {
@@ -72,10 +84,6 @@ protected:
     void closeEvent(QCloseEvent *event) override;
 
     void keyPressEvent(QKeyEvent *event) override;
-
-    void setupStyleSheetServer();
-
-    void createWidgetTree(QString text);
 
     /**
      * @brief reset
@@ -97,9 +105,9 @@ protected:
 
     void destroyAllDockWidgets();
 
-    QString getAppWidgets(QWidget* parent);
+    void addWidgetToWidgetsModel(QWidget* parent, QStandardItem* parent_item);
 
-    void getParentObjects(QObject* parent, QStringList& objects, const int& depth);
+    void addLayoutToWidgetsModel(QLayout* layout, QStandardItem* parent_item);
 
     void setAppWidgetsTooltip(QWidget* parent);
 
@@ -107,11 +115,34 @@ protected:
 
     QJsonArray uiFilesJson();
 
+    QJsonObject uiChangesJson();
+
     void addUiFilesFromJson(const QJsonValue& uifiles_arr);
 
     void saveStyleSheetProject(const QString& filename = "");
 
     void openStyleSheetProject(const QString& filename = "");
+
+    void parseWidgetJson(QWidget* widget, QJsonArray& changes_arr);
+
+    void parseLayoutJson(QLayout* layout, QJsonArray& changes_arr);
+
+    // ------------------------------------
+    // Widgets functions
+
+    void setupWidgetModel();
+
+    void resetWidgetsModel();
+
+    AppObject selectedAppObject();
+
+    void setUiMarginsSpacingFromJson(QDockWidget* dw, const QJsonArray& widgets_arr);
+
+    /**
+     * @brief selectedDockWidget
+     * @return The dockwidget that is selected in the ui tree view
+     */
+    QDockWidget* selectedDockWidget();
 
     // ------------------------------------
     // Event filter functions
@@ -120,8 +151,6 @@ protected:
 
 private slots:
     void applyStyleSheet(const QString& style_sheet);
-
-    void updateWidgetsTree(const QString& text);
 
     void setIcons();
 
@@ -162,25 +191,37 @@ private slots:
 
     void on_actionOnline_triggered();
 
+    void on_treeViewAppWidgets_clicked(const QModelIndex &index);
+
+    // ------------------------------------
+    // Widget functions
+
+    void setActiveWidgetContentsMargin();
+
+    void setActiveWidgetContentBoxSpacing();
+
+    void setActiveWidgetContentFormSpacing();
+
+    void setActiveWidgetContentGridSpacing();
+
+    void setActiveWidgetContentStackedSpacing();
+
 private:
     Ui::MainWindow *ui;
 
     Workspace* m_workspace;
 
-//    QProcess* m_process;
-
-    /** This member variable contains the server that serves stylesheets to other qt applications.
-     */
-//    StyleSheetServer* m_style_sheet_server;
-
     DragItemModel* m_widgets_model;
+
     StyleSheetEditorWidget* m_se_widget;
 
     QMap<QString, QDockWidget*> m_ui_dockwidgets_map; // the key is the filename of the ui file
+
     QStandardItemModel* m_files_model;
 
     Project* m_project;
 
+    QList<QStandardItem*> m_altered_items;
 };
 
 #endif // MAINWINDOW_H

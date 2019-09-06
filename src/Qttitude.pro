@@ -9,7 +9,7 @@ CONFIG += c++14
 
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
-TARGET = StyleSheetEditor
+TARGET = Qttitude
 TEMPLATE = app
 
 
@@ -27,7 +27,9 @@ SOURCES += main.cpp\
     dragitemmodel.cpp \
     extendedlineedit.cpp \
     dialogtexteditor.cpp \
-    project.cpp
+    project.cpp \
+    codegen.cpp \
+    dialogpagecreator.cpp
 
 HEADERS  += mainwindow.h \
     coloreditorwidget.h \
@@ -43,13 +45,16 @@ HEADERS  += mainwindow.h \
     dragitemmodel.h \
     extendedlineedit.h \
     dialogtexteditor.h \
-    project.h
+    project.h \
+    codegen.h \
+    dialogpagecreator.h
 
 FORMS    += mainwindow.ui \
     stylesheeteditorwidget.ui \
     dialogcolorspec.ui \
     form.ui \
-    dialogtexteditor.ui
+    dialogtexteditor.ui \
+    dialogpagecreator.ui
 
 RESOURCES += \
     resources.qrc

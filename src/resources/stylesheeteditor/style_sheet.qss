@@ -22,6 +22,7 @@ QWidget#StyleSheetEditorWidget QFrame#frameControl,
 QWidget#StyleSheetEditorWidget QFrame#frameVars,
 QWidget#StyleSheetEditorWidget QFrame#frameSnippets,
 QWidget#StyleSheetEditorWidget QPushButton#btnApplyStyleSheet,
+QWidget#StyleSheetEditorWidget QPushButton#btnAddBoilerPlatePages,
 QWidget#StyleSheetEditorWidget QPushButton#btnClear,
 QWidget#StyleSheetEditorWidget QPushButton#btnAddVar,
 QWidget#StyleSheetEditorWidget QPushButton#btnVarUp,
@@ -73,6 +74,7 @@ icon-size: 20px;
 }
 
 QWidget#StyleSheetEditorWidget QPushButton#btnApplyStyleSheet:Pressed,
+QWidget#StyleSheetEditorWidget QPushButton#btnAddBoilerPlatePages:Pressed,
 QWidget#StyleSheetEditorWidget QPushButton#btnClear:Pressed,
 QWidget#StyleSheetEditorWidget QPushButton#btnAddVar:Pressed,
 QWidget#StyleSheetEditorWidget QPushButton#btnVarUp:Pressed,

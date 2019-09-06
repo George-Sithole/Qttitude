@@ -496,6 +496,12 @@
         </property>
         <item row="0" column="0">
          <widget class="QSplitter" name="splitter_2">
+          <property name="sizePolicy">
+           <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
+            <horstretch>0</horstretch>
+            <verstretch>0</verstretch>
+           </sizepolicy>
+          </property>
           <property name="orientation">
            <enum>Qt::Horizontal</enum>
           </property>
@@ -577,6 +583,31 @@
               <property name="spacing">
                <number>0</number>
               </property>
+              <item row="0" column="3">
+               <widget class="QPushButton" name="btnPageDown">
+                <property name="toolTip">
+                 <string>Move page down</string>
+                </property>
+                <property name="icon">
+                 <iconset resource="resources.qrc">
+                  <normaloff>:/icons/resources/icons/fontawesome-free-5.10.0-desktop/svgs/solid/chevron-circle-down.svg</normaloff>:/icons/resources/icons/fontawesome-free-5.10.0-desktop/svgs/solid/chevron-circle-down.svg</iconset>
+                </property>
+               </widget>
+              </item>
+              <item row="0" column="5">
+               <widget class="QPushButton" name="btnAddBoilerPlatePages">
+                <property name="toolTip">
+                 <string>Add template pages</string>
+                </property>
+                <property name="text">
+                 <string/>
+                </property>
+                <property name="icon">
+                 <iconset resource="resources.qrc">
+                  <normaloff>:/icons/th-list.svg</normaloff>:/icons/th-list.svg</iconset>
+                </property>
+               </widget>
+              </item>
               <item row="0" column="0">
                <widget class="QPushButton" name="btnAddPage">
                 <property name="toolTip">
@@ -585,6 +616,41 @@
                 <property name="icon">
                  <iconset resource="resources.qrc">
                   <normaloff>:/icons/resources/icons/fontawesome-free-5.10.0-desktop/svgs/solid/plus-circle.svg</normaloff>:/icons/resources/icons/fontawesome-free-5.10.0-desktop/svgs/solid/plus-circle.svg</iconset>
+                </property>
+               </widget>
+              </item>
+              <item row="0" column="7">
+               <widget class="QPushButton" name="btnRemovePage">
+                <property name="toolTip">
+                 <string>Remove page</string>
+                </property>
+                <property name="icon">
+                 <iconset resource="resources.qrc">
+                  <normaloff>:/icons/resources/icons/fontawesome-free-5.10.0-desktop/svgs/solid/trash-alt.svg</normaloff>:/icons/resources/icons/fontawesome-free-5.10.0-desktop/svgs/solid/trash-alt.svg</iconset>
+                </property>
+               </widget>
+              </item>
+              <item row="0" column="6">
+               <spacer name="horizontalSpacer_4">
+                <property name="orientation">
+                 <enum>Qt::Horizontal</enum>
+                </property>
+                <property name="sizeHint" stdset="0">
+                 <size>
+                  <width>40</width>
+                  <height>20</height>
+                 </size>
+                </property>
+               </spacer>
+              </item>
+              <item row="0" column="2">
+               <widget class="QPushButton" name="btnPageUp">
+                <property name="toolTip">
+                 <string>Move page up</string>
+                </property>
+                <property name="icon">
+                 <iconset resource="resources.qrc">
+                  <normaloff>:/icons/resources/icons/fontawesome-free-5.10.0-desktop/svgs/solid/chevron-circle-up.svg</normaloff>:/icons/resources/icons/fontawesome-free-5.10.0-desktop/svgs/solid/chevron-circle-up.svg</iconset>
                 </property>
                </widget>
               </item>
@@ -604,41 +670,8 @@
                 </property>
                </spacer>
               </item>
-              <item row="0" column="3">
-               <widget class="QPushButton" name="btnPageDown">
-                <property name="toolTip">
-                 <string>Move page down</string>
-                </property>
-                <property name="icon">
-                 <iconset resource="resources.qrc">
-                  <normaloff>:/icons/resources/icons/fontawesome-free-5.10.0-desktop/svgs/solid/chevron-circle-down.svg</normaloff>:/icons/resources/icons/fontawesome-free-5.10.0-desktop/svgs/solid/chevron-circle-down.svg</iconset>
-                </property>
-               </widget>
-              </item>
-              <item row="0" column="5">
-               <widget class="QPushButton" name="btnRemovePage">
-                <property name="toolTip">
-                 <string>Remove page</string>
-                </property>
-                <property name="icon">
-                 <iconset resource="resources.qrc">
-                  <normaloff>:/icons/resources/icons/fontawesome-free-5.10.0-desktop/svgs/solid/trash-alt.svg</normaloff>:/icons/resources/icons/fontawesome-free-5.10.0-desktop/svgs/solid/trash-alt.svg</iconset>
-                </property>
-               </widget>
-              </item>
-              <item row="0" column="2">
-               <widget class="QPushButton" name="btnPageUp">
-                <property name="toolTip">
-                 <string>Move page up</string>
-                </property>
-                <property name="icon">
-                 <iconset resource="resources.qrc">
-                  <normaloff>:/icons/resources/icons/fontawesome-free-5.10.0-desktop/svgs/solid/chevron-circle-up.svg</normaloff>:/icons/resources/icons/fontawesome-free-5.10.0-desktop/svgs/solid/chevron-circle-up.svg</iconset>
-                </property>
-               </widget>
-              </item>
               <item row="0" column="4">
-               <spacer name="horizontalSpacer_4">
+               <spacer name="horizontalSpacer_9">
                 <property name="orientation">
                  <enum>Qt::Horizontal</enum>
                 </property>

@@ -38,6 +38,8 @@
 // Qt Libraries
 #include <QMimeData>
 #include <QModelIndex>
+#include <QList>
+#include <QDebug>
 
 // Local Libraries
 #include "dragitemmodel.h"
@@ -70,9 +72,18 @@ QMimeData* DragItemModel::mimeData(const QModelIndexList& indexes) const
     {
         if (index.isValid())
         {
-            if(index.column() == 0)
-            {
-                text_list << this->breadCrumb(index);
+            if (index.column() == 0){ // take care that the indexes in the other columns are not included in the parsing
+                QModelIndex index_col_0 = index.sibling(index.row(), 0);
+                QString widget_name = index_col_0.data().toString();
+
+                QStringList crumbs = this->breadCrumb(index_col_0);
+                if(crumbs.count() == 0){
+                    qDebug() << "Error: DragItemModel::mimeData - the bread crumb is empty";
+                } else if(crumbs.count() == 1) {
+                    text_list << crumbs.first();
+                } else {
+                    text_list << QString("%1 %2").arg(crumbs.first()).arg(crumbs.last());
+                }
             }
         }
     }
@@ -82,20 +93,16 @@ QMimeData* DragItemModel::mimeData(const QModelIndexList& indexes) const
     return mimeData;
 }
 
-QString DragItemModel::breadCrumb(const QModelIndex& index) const
+QStringList DragItemModel::breadCrumb(const QModelIndex& index) const
 {
-    const QModelIndex parent_index = index.parent();
-    if(parent_index.isValid())
-    {
+    if(index.isValid()) {
+        QString widget_name = index.sibling(index.row(), 0).data(Qt::DisplayRole).toString();
         QString widget_class = index.sibling(index.row(), 1).data(Qt::DisplayRole).toString();
-        QString child_text = this->breadCrumb(parent_index);
+        QStringList widget_definition(widget_class + "#" + widget_name);
 
-        return child_text + " " + widget_class + "#" + index.data(Qt::DisplayRole).toString();
-    }
-    else
-    {
-        QString widget_class = index.sibling(index.row(), 1).data(Qt::DisplayRole).toString();
-        return widget_class + "#" + index.data().toString();
+        return this->breadCrumb(index.parent()) + widget_definition;
+    } else {
+        return QStringList();
     }
 }
 

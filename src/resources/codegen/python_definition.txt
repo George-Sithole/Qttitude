@@ -1,0 +1,10 @@
+# Code generate on %0
+
+#import "ui_%1.py"
+
+class %2_Styling:
+    def __init__(self, *args, *kwargs):
+        pass
+
+    def setupUi(ui):
+%3

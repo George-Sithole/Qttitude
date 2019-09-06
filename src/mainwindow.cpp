@@ -36,9 +36,12 @@
 #include <iostream>
 #include <stdio.h>
 #include <string>
+#include <vector>
 
 // Qt Libraries
 #include <QGridLayout>
+#include <QFormLayout>
+#include <QStackedLayout>
 #include <QFile>
 #include <QFileDialog>
 #include <QProcess>
@@ -53,6 +56,8 @@
 #include <QJsonObject>
 #include <QMessageBox>
 #include <QDesktopServices>
+#include <QVector>
+
 
 // Local Libraries
 #include "mainwindow.h"
@@ -61,6 +66,7 @@
 #include "dragitemmodel.h"
 #include "workspace.h"
 #include "project.h"
+#include "codegen.h"
 
 
 MainWindow::MainWindow(QWidget *parent) :
@@ -93,7 +99,10 @@ MainWindow::MainWindow(QWidget *parent) :
     this->setupFilesWidgets();
 
     // initialize the server
-    this->setupStyleSheetServer();
+    this->setupWidgetModel(); // TODO change the name of this function from setupStyleSheetServer to something else
+    ui->grpboxMargins->setHidden(true);
+    ui->grpboxSpacing->setHidden(true);
+    ui->grpboxHVSpacing->setHidden(true);
 
     // set the stylesheet
     QFile file(":/stylesheeteditor/style_sheet.qss");
@@ -112,6 +121,10 @@ MainWindow::MainWindow(QWidget *parent) :
     // initialise the live preview
     ui->actionLive_Preview->setChecked(true);
     this->m_se_widget->setLivePreview(ui->actionLive_Preview->isChecked());
+
+    // initialise the outputs
+    ui->actionCpp->setChecked(true);
+    ui->actionPython->setChecked(true);
 
     // setup connections
     connect(this->m_se_widget, SIGNAL(styleSheetReady(QString)), this, SLOT(applyStyleSheet(QString)));
@@ -193,7 +206,7 @@ bool MainWindow::addUiFile(const QString& filename, const bool& visible)
         QFile file(filename);
 
         // load the user interface into a QWidget
-        file.open(QFile::ReadOnly);
+        file.open(QFile::ReadOnly | QIODevice::Text);
         QUiLoader loader;
         QWidget* widget = loader.load(&file);
         widget->setStyleSheet(" ");
@@ -252,7 +265,7 @@ bool MainWindow::addUiFile(const QString& filename, const bool& visible)
 
 void MainWindow::addUiFiles(const QStringList& filenames)
 {
-    QStringList fnames = filenames.count() > 0 ? filenames : QFileDialog::getOpenFileNames(this, tr("Open User Interface"), this->m_project->workingDir(), tr("User Interface Files (*.ui)"));
+    QStringList fnames = filenames.count() > 0 ? filenames : QFileDialog::getOpenFileNames(this, tr("Open User Interface"), this->m_project->workingDir(), tr("User Interface Files, *.ui (*.ui)"));
 
     foreach(QString f, fnames)
     {
@@ -285,10 +298,7 @@ void MainWindow::removeUiFile(const QString& ui_filepath)
 void MainWindow::removeSelectedUiFiles()
 {
     // clear and reset the data models
-    this->m_widgets_model->clear();
-    this->m_widgets_model->setColumnCount(2);
-    this->m_widgets_model->setHeaderData(0, Qt::Horizontal, "Object");
-    this->m_widgets_model->setHeaderData(1, Qt::Horizontal, "Class");
+    this->resetWidgetsModel();
 
     // remove the ui file from the tree view
     QModelIndexList idxlist = ui->treeViewFiles->selectionModel()->selectedRows(0);
@@ -309,28 +319,74 @@ void MainWindow::destroyAllDockWidgets()
     this->m_files_model->clear();
 }
 
-QString MainWindow::getAppWidgets(QWidget* parent)
+void MainWindow::addWidgetToWidgetsModel(QWidget* parent, QStandardItem* parent_item)
 {
-    if(parent != Q_NULLPTR)
-    {
-        QStringList widgets;
-        this->getParentObjects(parent, widgets, 1);
-        return widgets.join('\n');
+    // check that the widget is not null
+    if(! parent) {
+        return;
     }
-    return QString();
+
+    QStandardItem* item_widget_name = new QStandardItem(parent->objectName());
+    QStandardItem* item_widget_class = new QStandardItem(parent->metaObject()->className());
+    item_widget_name->setEditable(false);
+    item_widget_class->setEditable(false);
+    parent_item->appendRow({item_widget_name, item_widget_class});
+
+    // test if the widgets margins were changed
+    QVariant prop = parent->property("_g_margin_edit");
+    if(prop.isValid()){
+        item_widget_name->setIcon(QIcon(":/icons/star.svg"));
+    }
+
+//item_widget_name->setBackground(QBrush("red"));
+    // add the widget's layout to the widgets model
+    if(parent->layout()) {
+        this->addLayoutToWidgetsModel(parent->layout(), item_widget_name);
+    }
 }
 
-void MainWindow::getParentObjects(QObject* parent, QStringList& objects, const int& depth)
+void MainWindow::addLayoutToWidgetsModel(QLayout* layout, QStandardItem* parent_item)
 {
-    // write parent
-    QString object_name = parent->objectName();
-    QString class_name = parent->metaObject()->className();
-    objects << QString("%0,%1,%2").arg(depth).arg(object_name).arg(class_name);
+    // check that the widget has a layout
+    if(! layout) {
+        return;
+    }
 
-    // write the children
-    for(QObject* child: parent->children())
+    QStandardItem* item_layout_name = new QStandardItem(layout->objectName());
+    QStandardItem* item_layout_class = new QStandardItem(layout->metaObject()->className());
+    item_layout_name->setEditable(false);
+    item_layout_class->setEditable(false);
+    parent_item->appendRow({item_layout_name, item_layout_class});
+
+
+    // test if the widgets margins were changed
+    QVariant mprop = layout->property("_g_margin_edit");
+    QVariant sprop = layout->property("_g_spacing_edit");
+    if(mprop.isValid() || sprop.isValid()){
+        item_layout_name->setIcon(QIcon(":/icons/star.svg"));
+    }
+
+    // loop through the layout
+    for(int i = 0; i < layout->count(); ++i)
     {
-        this->getParentObjects(child, objects, depth + 1);
+        QLayoutItem* layout_item = layout->itemAt(i);
+        if(layout_item){
+            if(! layout_item->isEmpty()) {
+                if(layout_item->widget()){
+                    this->addWidgetToWidgetsModel(layout_item->widget(), item_layout_name);
+                }
+                else if (layout_item->layout()) {
+                    this->addLayoutToWidgetsModel(layout_item->layout(), item_layout_name);
+                }
+                else if (layout_item->spacerItem()) {
+                    QStandardItem* item_spacer_name = new QStandardItem("Spacer");
+                    QStandardItem* item_spacer_class = new QStandardItem("QSpacerItem");
+                    item_spacer_name->setEditable(false);
+                    item_spacer_class->setEditable(false);
+                    item_layout_name->appendRow({item_spacer_name, item_spacer_class});
+                }
+            }
+        }
     }
 }
 
@@ -366,35 +422,21 @@ void MainWindow::on_treeViewFiles_clicked(const QModelIndex &index)
     if(index.isValid())
     {
         QStandardItem* item = m_files_model->item(index.row(), 0);
-//        QString key = m_files_model->index(index.row(), 1).data().toString();
         QString key = item->toolTip();
         QDockWidget* dockwidget = this->m_ui_dockwidgets_map[key];
 
-
-        // test if the index has been checked
-        if(item->checkState() == Qt::Checked){
-            // update the tree view containing the widget's layout
-            QString layout = this->getAppWidgets(dockwidget->widget());
-            this->createWidgetTree(layout);
-            dockwidget->show();
-        }
-        else {
-            this->m_widgets_model->clear();
-            m_widgets_model->setColumnCount(2);
-            m_widgets_model->setHeaderData(0, Qt::Horizontal, "Object");
-            m_widgets_model->setHeaderData(1, Qt::Horizontal, "Class");
-
-            dockwidget->hide();
-        }
+        this->resetWidgetsModel();
+//        this->addWidgetToWidgetsModel(dockwidget->widget(), this->m_widgets_model->invisibleRootItem());
+        this->addWidgetToWidgetsModel(dockwidget->widget(), this->m_widgets_model->invisibleRootItem());
+        ui->treeViewAppWidgets->expandAll();
     }
 }
-
 
 void MainWindow::on_treeViewFiles_doubleClicked(const QModelIndex &index)
 {
     if(index.isValid())
     {
-        QString key = m_files_model->index(index.row(), 1).data().toString();
+        QString key = index.data(Qt::ToolTipRole).toString();
         QDockWidget* dockwidget = this->m_ui_dockwidgets_map[key];
         dockwidget->show();
 
@@ -403,12 +445,11 @@ void MainWindow::on_treeViewFiles_doubleClicked(const QModelIndex &index)
     }
 }
 
-
 // -------------------------------------
 //         Widgets functions
 // -------------------------------------
 
-void MainWindow::setupStyleSheetServer() // TODO rename this function
+void MainWindow::setupWidgetModel() // TODO rename this function
 {
     m_widgets_model = new DragItemModel(this);
     m_widgets_model->setColumnCount(2);
@@ -419,70 +460,12 @@ void MainWindow::setupStyleSheetServer() // TODO rename this function
     ui->treeViewAppWidgets->setIndentation(16);
 }
 
-void MainWindow::updateWidgetsTree(const QString& text)
+void MainWindow::resetWidgetsModel()
 {
-    this->createWidgetTree(text);
-}
-
-void MainWindow::createWidgetTree(QString text)
-{
-    QString widgets;
-    widgets = "QAbstractScrollArea;QCheckBox;QColumnView;QComboBox;QDateEdit;"
-              "QDateTimeEdit;QDialog;QDialogButtonBox;QDockWidget;QDoubleSpinBox;"
-              "QFrame;QGroupBox;QHeaderView;QLabel;QLineEdit;QListView;"
-              "QListWidget;QMainWindow;QMenu;QMenuBar;QMessageBox;QProgressBar;"
-              "QPushButton;QRadioButton;QScrollBar;QSizeGrip;QSlider;"
-              "QSpinBox;QSplitter;QStatusBar;QTabBar;QTabWidget;"
-              "QTableView;QTableWidget;QTextEdit;QTimeEdit;QToolBar;"
-              "QToolButton;QToolBox;QToolTip;QTreeView;QTreeWidget;QWidget";
-
-    QStringList inclusion = widgets.split(';', QString::SkipEmptyParts);
-
-    QHash<int, QStandardItem*> parent_hash;
-    QTextStream ts(&text);
-    QString line;
-    while (ts.readLineInto(&line))
-    {
-        QStringList sp = line.split(',', QString::KeepEmptyParts);
-
-        if(sp.count() == 3)
-        {
-            int depth = sp[0].toInt();
-            QString obj_name = sp[1];
-            if(obj_name.isEmpty())
-                obj_name = "No Name";
-            QString obj_class = sp[2];
-
-            if(depth == 1)
-            {
-                QStandardItem* parent_item = new QStandardItem(obj_name);
-                parent_item->setEditable(false);
-                QStandardItem* value_item = new QStandardItem(obj_class);
-                value_item->setEditable(false);
-
-                this->m_widgets_model->appendRow({parent_item, value_item});
-                parent_hash[depth] = parent_item;
-            }
-            else
-            {
-//                if(inclusion.contains(obj_class))
-                {
-                    QStandardItem* child_item = new QStandardItem(obj_name);
-                    child_item->setEditable(false);
-                    QStandardItem* value_item = new QStandardItem(obj_class);
-                    value_item->setEditable(false);
-
-                    QStandardItem* parent_item = parent_hash[depth - 1];
-                    parent_item->appendRow({child_item, value_item});
-
-                    parent_hash[depth] = child_item;
-                }
-            }
-        }
-    }
-
-    // expand the tree
-    ui->treeViewAppWidgets->expandAll();
+    this->m_widgets_model->clear();
+    this->m_widgets_model->setColumnCount(2);
+    this->m_widgets_model->setHeaderData(0, Qt::Horizontal, "Object");
+    this->m_widgets_model->setHeaderData(1, Qt::Horizontal, "Class");
 }
 
 // -------------------------------------
@@ -513,36 +496,45 @@ bool MainWindow::eventFilter(QObject *obj, QEvent *event)
             QDockWidget* dockwidget = qobject_cast<QDockWidget *>(obj);
             QString title = dockwidget->windowTitle(); // the title contains the ui filename
 
-            // find the file item
-            QList<QStandardItem*> items;
+            // find the file item in the ui file list ...
             for(int row = 0; row < this->m_files_model->rowCount(); ++row){
                 QStandardItem* item = this->m_files_model->item(row, 0);
-                if(item->toolTip() == title)
-                    items.push_back(item);
+                if(item->toolTip() == title){
+                    bool dw_hidden = dockwidget->isHidden();
+
+                    // ... update the check state of the item
+                    item->setCheckState( dw_hidden ? Qt::Unchecked : Qt::Checked );
+                    processed = true;
+                }
             }
 
-            // synch the state of the dockwidget to the widgets model
-            if(items.count() > 0){
-                QStandardItem* item = this->m_files_model->item(items[0]->row(), 0);
-                if(dockwidget->isHidden()){
-                    item->setCheckState(Qt::Unchecked);
+//            // get the selected index in the files list view
+//            QModelIndexList idxlist = ui->treeViewFiles->selectionModel()->selectedRows(0);
+//            QString current_selected_ui_file;
+//            if (idxlist.count() > 0) {
+//                current_selected_ui_file = idxlist[0].data(Qt::ToolTipRole).toString();
+//            }
 
-                    // clear the widgets tree view
-                    this->m_widgets_model->clear();
-                    m_widgets_model->setColumnCount(2);
-                    m_widgets_model->setHeaderData(0, Qt::Horizontal, "Object");
-                    m_widgets_model->setHeaderData(1, Qt::Horizontal, "Class");
-                }
-                else {
-                    item->setCheckState(Qt::Checked);
+//            // synch the state of the dockwidget to the widgets model
+//            if(items.count() > 0){
+//                QStandardItem* item = this->m_files_model->item(items[0]->row(), 0);
+//                if(dockwidget->isHidden()){
+//                    item->setCheckState(Qt::Unchecked);
 
-                    // update the tree view containing the widget's layout
-                    QString layout = this->getAppWidgets(dockwidget->widget());
-                    this->createWidgetTree(layout);
-                }
+//                    // clear the widgets tree view
+//                    this->resetWidgetsModel();
+//                }
+//                else {
+//                    item->setCheckState(Qt::Checked);
 
-                processed = true;
-            }
+//                    // update the tree view containing the widget's layout
+//                    this->resetWidgetsModel();
+//                    this->addWidgetToWidgetsModel(dockwidget->widget(), this->m_widgets_model->invisibleRootItem());
+//                    ui->treeViewAppWidgets->expandAll();
+//                }
+
+//                processed = true;
+//            }
         }
     }
 
@@ -596,7 +588,15 @@ void MainWindow::on_actionSave_As_triggered()
 
 void MainWindow::on_action_Export_triggered()
 {
-    this->m_se_widget->saveStyleSheet();
+    // write the style sheet
+    if(this->m_se_widget->saveStyleSheet()) {
+        // generate styling code for the widgets
+        foreach(QDockWidget* dw, this->m_ui_dockwidgets_map)
+        {
+            if(ui->actionCpp) CodeGen::generate(dw->widget(), "C++");
+            if(ui->actionPython) CodeGen::generate(dw->widget(), "Python");
+        }
+    }
 }
 
 void MainWindow::on_actionExit_triggered()
@@ -685,7 +685,7 @@ void MainWindow::saveStyleSheetProject(const QString& filename)
     // test if the local filename is empty
     QString local_filename = filename;
     if(local_filename.isEmpty()) {
-        local_filename = QFileDialog::getSaveFileName(this, tr("Project File"), this->m_project->workingDir(), tr("Project File (*.proj)"));
+        local_filename = QFileDialog::getSaveFileName(this, tr("Project File"), this->m_project->workingDir(), tr("Project File, *.proj (*.proj)"));
         if(local_filename.isEmpty()) {
             return;
         }
@@ -701,6 +701,7 @@ void MainWindow::saveStyleSheetProject(const QString& filename)
         root_obj["variables"] = this->m_se_widget->variablesJson();
         root_obj["snippets"] = this->m_se_widget->snippetsJson();
         root_obj["pages"] = this->m_se_widget->pagesJson();
+        root_obj["uichanges"] = this->uiChangesJson();
 
         QJsonDocument json_doc(root_obj);
         QByteArray json = json_doc.toJson(QJsonDocument::Indented);
@@ -748,17 +749,16 @@ int MainWindow::reset()
     this->m_project->setIsSaved(true);
     this->setWindowTitle(this->m_workspace->appWindowTitle());
 
+//    // clear the altered items list
+//    this->m_altered_items.clear();
+
     // clear and reset the data models
     this->m_files_model->clear();
     this->m_files_model->setColumnCount(1);
     this->m_files_model->setHeaderData(0, Qt::Horizontal, "Filename");
 //    this->m_files_model->setHeaderData(1, Qt::Horizontal, "Path");
 
-    this->m_widgets_model->clear();
-    this->m_widgets_model->setColumnCount(2);
-    this->m_widgets_model->setHeaderData(0, Qt::Horizontal, "Object");
-    this->m_widgets_model->setHeaderData(1, Qt::Horizontal, "Class");
-
+    this->resetWidgetsModel();
 
     // destroy all the dockwidgets
     foreach(QDockWidget* dw, this->m_ui_dockwidgets_map)
@@ -776,7 +776,7 @@ void MainWindow::openStyleSheetProject(const QString& filename)
     // test if the local filename is empty
     QString local_filename = filename;
     if(local_filename.isEmpty()) {
-        local_filename = QFileDialog::getOpenFileName(this, tr("Project File"), this->m_project->workingDir(), tr("Style File (*.proj)"));
+        local_filename = QFileDialog::getOpenFileName(this, tr("Project File"), this->m_project->workingDir(), tr("Style File, *.proj (*.proj)"));
         if(local_filename.isEmpty()) {
             return;
         }
@@ -815,6 +815,66 @@ void MainWindow::openStyleSheetProject(const QString& filename)
     foreach(QDockWidget* dw, this->m_ui_dockwidgets_map) {
         dw->widget()->setStyleSheet(style_sheet);
     }
+
+    // apply margins and spacings
+    QJsonObject ui_obj = root_obj.value("uichanges").toObject();
+    for(QString ui_name: ui_obj.keys()){
+        QJsonArray widgets_arr = ui_obj[ui_name].toArray();
+        QDockWidget* dw = this->m_ui_dockwidgets_map[ui_name];
+        this->setUiMarginsSpacingFromJson(dw, widgets_arr);
+    }
+}
+
+void MainWindow::setUiMarginsSpacingFromJson(QDockWidget* dw, const QJsonArray& widgets_arr)
+{
+    for(QJsonValue v: widgets_arr){
+        QJsonObject ui_obj = v.toObject();
+        QString widget_name = ui_obj["name"].toString();
+
+        // find widget with widget_name
+        QObject* obj = dw->findChild<QObject *>(widget_name);
+        if(obj){
+            if(obj->inherits("QWidget")){
+                // set margins
+                if(ui_obj.contains("margins")){
+                    QVariantList m = ui_obj["margins"].toArray().toVariantList();
+                    QWidget* widget = qobject_cast<QWidget*>(obj);
+                    widget->setContentsMargins(m[0].toInt(), m[1].toInt(), m[2].toInt(), m[3].toInt());
+                }
+            } else if (obj->inherits("QLayout")) {
+                // set margins
+                if(ui_obj.contains("margins")){
+                    QVariantList m = ui_obj["margins"].toArray().toVariantList();
+                    QLayout* layout = qobject_cast<QLayout*>(obj);
+                    layout->setContentsMargins(m[0].toInt(), m[1].toInt(), m[2].toInt(), m[3].toInt());
+                }
+
+                // set spacing
+                if(ui_obj.contains("spacing")){
+                    QString obj_class = obj->metaObject()->className();
+                    QVariantList s = ui_obj["spacing"].toArray().toVariantList();
+
+                    if(obj_class == "QBoxLayout"){
+                        QBoxLayout* layout = qobject_cast<QBoxLayout*>(obj);
+                        layout->setSpacing(s[0].toInt());
+                    } else if(obj_class == "QFormLayout"){
+                        QFormLayout* layout = qobject_cast<QFormLayout*>(obj);
+                        layout->setHorizontalSpacing(s[0].toInt());
+                        layout->setVerticalSpacing(s[1].toInt());
+                    } else if(obj_class == "QGridLayout"){
+                        QGridLayout* layout = qobject_cast<QGridLayout*>(obj);
+                        layout->setHorizontalSpacing(s[0].toInt());
+                        layout->setVerticalSpacing(s[1].toInt());
+                    } else if(obj_class == "QStackedLayout"){
+                        QStackedLayout* layout = qobject_cast<QStackedLayout*>(obj);
+                        layout->setSpacing(s[0].toInt());
+                    }
+                }
+            }
+        } else {
+            qDebug() << "Error: openStyleSheetProject: object is null;";
+        }
+    }
 }
 
 void MainWindow::on_actionCholor_Scheme_Generator_triggered()
@@ -836,8 +896,7 @@ void MainWindow::on_actionLicense_triggered()
 
 void MainWindow::on_actionOnline_triggered()
 {
-    qDebug() << "Open url";
-    QDesktopServices::openUrl(QUrl("https://www.geovariant.com"));
+    QDesktopServices::openUrl(QUrl("https://www.geovariant.com/qttitude.html"));
 }
 
 void MainWindow::setIcons()
@@ -846,5 +905,308 @@ void MainWindow::setIcons()
     ui->actionOpen->setIcon(QIcon(":/icons/file-alt.svg"));
     ui->actionOpen->setIcon(QIcon(":/icons/file-download.svg"));
     ui->actionOpen->setIcon(QIcon(":/icons/file-download-as.svg"));
+}
+
+void MainWindow::setActiveWidgetContentsMargin()
+{
+    AppObject app_object = this->selectedAppObject();
+
+    if(app_object.widget){
+        app_object.widget->setProperty("_g_margin_edit", true);
+        app_object.widget->setContentsMargins(ui->sldr_margin_left->value(), ui->sldr_margin_top->value(),
+                                              ui->sldr_margin_right->value(), ui->sldr_margin_bottom->value());
+
+        // set the item's icon
+        app_object.item_name->setIcon(QIcon(":/icons/star.svg"));
+    } else if (app_object.layout) {
+        app_object.layout->setProperty("_g_margin_edit", true);
+        app_object.layout->setContentsMargins(ui->sldr_margin_left->value(), ui->sldr_margin_top->value(),
+                                              ui->sldr_margin_right->value(), ui->sldr_margin_bottom->value());
+
+        // set the item's icon
+        app_object.item_name->setIcon(QIcon(":/icons/star.svg"));
+    }
+}
+
+void MainWindow::setActiveWidgetContentBoxSpacing()
+{
+    AppObject app_object = this->selectedAppObject();
+    app_object.layout->setProperty("_g_spacing_edit", true);
+
+    QBoxLayout* layout = qobject_cast<QBoxLayout*>(app_object.layout);
+    layout->setSpacing(ui->sldr_spacing->value());
+
+    // set the item's icon
+    app_object.item_name->setIcon(QIcon(":/icons/star.svg"));
+}
+
+void MainWindow::setActiveWidgetContentFormSpacing()
+{
+    AppObject app_object = this->selectedAppObject();
+    app_object.layout->setProperty("_g_spacing_edit", true);
+
+    QFormLayout* layout = qobject_cast<QFormLayout*>(app_object.layout);
+    layout->setHorizontalSpacing(ui->sldr_spacing_horizontal->value());
+    layout->setVerticalSpacing(ui->sldr_spacing_vertical->value());
+
+    // set the item's icon
+    app_object.item_name->setIcon(QIcon(":/icons/star.svg"));
+}
+
+void MainWindow::setActiveWidgetContentGridSpacing()
+{
+    AppObject app_object = this->selectedAppObject();
+    app_object.layout->setProperty("_g_spacing_edit", true);
+
+    QGridLayout* layout = qobject_cast<QGridLayout*>(app_object.layout);
+    layout->setHorizontalSpacing(ui->sldr_spacing_horizontal->value());
+    layout->setVerticalSpacing(ui->sldr_spacing_vertical->value());
+
+    // set the item's icon
+    app_object.item_name->setIcon(QIcon(":/icons/star.svg"));
+}
+
+void MainWindow::setActiveWidgetContentStackedSpacing()
+{
+    AppObject app_object = this->selectedAppObject();
+    app_object.layout->setProperty("_g_spacing_edit", true);
+
+    QStackedLayout* layout = qobject_cast<QStackedLayout*>(app_object.layout);
+    layout->setSpacing(ui->sldr_spacing->value());
+
+    // set the item's icon
+    app_object.item_name->setIcon(QIcon(":/icons/star.svg"));
+}
+
+QDockWidget* MainWindow::selectedDockWidget()
+{
+    QModelIndex index = ui->treeViewFiles->selectionModel()->currentIndex();
+    if(index.isValid()){
+        QString key = index.data(Qt::ToolTipRole).toString();
+        return this->m_ui_dockwidgets_map[key];
+    } else {
+        return  nullptr;
+    }
+}
+
+AppObject MainWindow::selectedAppObject()
+{
+    AppObject app_obj;
+
+    // get the current index of widget in the app widgets tree
+    QModelIndex index = ui->treeViewAppWidgets->selectionModel()->currentIndex();
+    app_obj.item_name = this->m_widgets_model->itemFromIndex(index.sibling(index.row(), 0));
+    app_obj.item_class = this->m_widgets_model->itemFromIndex(index.sibling(index.row(), 1));
+
+    if(!app_obj.item_name){
+        qDebug() << "Error: " << index;
+    }
+
+    app_obj.obj_name = app_obj.item_name->text();
+    app_obj.obj_class = app_obj.item_class->text();
+
+    // find the selected widget or layout in the dockwidget
+    QDockWidget* dockwidget = this->selectedDockWidget();
+    if(dockwidget){
+        QObject* obj = dockwidget->findChild<QObject *>(app_obj.obj_name);
+        if(obj->inherits("QWidget")){
+            app_obj.widget = qobject_cast<QWidget*>(obj);
+        } else if (obj->inherits("QLayout")) {
+            app_obj.layout = qobject_cast<QLayout*>(obj);
+        }
+    }
+
+    return app_obj;
+}
+
+void MainWindow::on_treeViewAppWidgets_clicked(const QModelIndex &index)
+{
+    Q_UNUSED(index);
+
+    AppObject app_object = selectedAppObject();
+
+    // disconnect sliders
+    QVector<QSlider*> margin_sliders = {ui->sldr_margin_left, ui->sldr_margin_top, ui->sldr_margin_right, ui->sldr_margin_bottom};
+    std::for_each(margin_sliders.begin(), margin_sliders.end(), [&](QSlider* slider){
+        disconnect(slider, SIGNAL(valueChanged(int)), this, SLOT(setActiveWidgetContentsMargin()));
+    });
+
+    QVector<QSlider*> spacking_sliders = {ui->sldr_spacing, ui->sldr_spacing_horizontal, ui->sldr_spacing_vertical};
+    std::for_each(spacking_sliders.begin(), spacking_sliders.end(), [&](QSlider* slider){
+        disconnect(slider, SIGNAL(valueChanged(int)), this, SLOT(setActiveWidgetContentsMargin()));
+    });
+
+    ui->grpboxMargins->setVisible(true);
+
+    QMargins margins;
+    if(app_object.widget)
+    {
+        margins = app_object.widget->contentsMargins();
+
+        ui->grpboxSpacing->setVisible(false);
+        ui->grpboxHVSpacing->setVisible(false);
+    } else if (app_object.layout) {
+        margins = app_object.layout->contentsMargins();
+
+        if(app_object.obj_class == "QBoxLayout"){
+            QBoxLayout* layout = qobject_cast<QBoxLayout*>(app_object.layout);
+            ui->sldr_spacing->setValue(layout->spacing());
+            ui->grpboxSpacing->setVisible(true);
+            ui->grpboxHVSpacing->setVisible(false);
+
+            // set slider connections
+            connect(ui->sldr_spacing, SIGNAL(valueChanged(int)), this, SLOT(setActiveWidgetContentBoxSpacing()));
+        } else if(app_object.obj_class == "QFormLayout"){
+            QFormLayout* layout = qobject_cast<QFormLayout*>(app_object.layout);
+            ui->sldr_spacing_horizontal->setValue(layout->horizontalSpacing());
+            ui->sldr_spacing_vertical->setValue(layout->verticalSpacing());
+            ui->grpboxSpacing->setVisible(false);
+            ui->grpboxHVSpacing->setVisible(true);
+
+            // set slider connections
+            connect(ui->sldr_spacing_horizontal, SIGNAL(valueChanged(int)), this, SLOT(setActiveWidgetContentFormSpacing()));
+            connect(ui->sldr_spacing_vertical, SIGNAL(valueChanged(int)), this, SLOT(setActiveWidgetContentFormSpacing()));
+        } else if(app_object.obj_class == "QGridLayout"){
+            QGridLayout* layout = qobject_cast<QGridLayout*>(app_object.layout);
+            ui->sldr_spacing_horizontal->setValue(layout->horizontalSpacing());
+            ui->sldr_spacing_vertical->setValue(layout->verticalSpacing());
+            ui->grpboxSpacing->setVisible(false);
+            ui->grpboxHVSpacing->setVisible(true);
+
+            // set slider connections
+            connect(ui->sldr_spacing_horizontal, SIGNAL(valueChanged(int)), this, SLOT(setActiveWidgetContentGridSpacing()));
+            connect(ui->sldr_spacing_vertical, SIGNAL(valueChanged(int)), this, SLOT(setActiveWidgetContentGridSpacing()));
+        } else if(app_object.obj_class == "QStackedLayout"){
+            QStackedLayout* layout = qobject_cast<QStackedLayout*>(app_object.layout);
+            ui->sldr_spacing->setValue(layout->spacing());
+            ui->grpboxSpacing->setVisible(true);
+            ui->grpboxHVSpacing->setVisible(false);
+
+            // set slider connections
+            connect(ui->sldr_spacing, SIGNAL(valueChanged(int)), this, SLOT(setActiveWidgetContentStackedSpacing()));
+        }
+    }
+
+    ui->sldr_margin_left->setValue(margins.left());
+    ui->sldr_margin_top->setValue(margins.top());
+    ui->sldr_margin_right->setValue(margins.right());
+    ui->sldr_margin_bottom->setValue(margins.bottom());
+
+    // reset slider connections
+    std::for_each(margin_sliders.begin(), margin_sliders.end(), [&](QSlider* slider){
+        connect(slider, SIGNAL(valueChanged(int)), this, SLOT(setActiveWidgetContentsMargin()));
+    });
+
+//    std::for_each(sliders.begin(), sliders.end(), [](QSlider* slider){ slider->blockSignals(false); });
+}
+
+
+QJsonObject MainWindow::uiChangesJson()
+{
+    QJsonObject uichanges_obj;
+    foreach(QDockWidget* dw, this->m_ui_dockwidgets_map)
+    {
+        // parse the form to get those widgets whose styles (margins and spacing) have been changed
+        QJsonArray widget_change_arr;
+        this->parseWidgetJson(dw->widget(), widget_change_arr);
+        uichanges_obj[dw->windowTitle()] = widget_change_arr;
+    }
+
+    return uichanges_obj;
+}
+
+void MainWindow::parseWidgetJson(QWidget* widget, QJsonArray& changes_arr)
+{
+    // check that the widget is not null
+    if(! widget) {
+        QString();
+    }
+
+    // test if the widgets margins were changed
+    QJsonObject widget_obj;
+    widget_obj["name"] = widget->objectName();
+
+    QVariant prop = widget->property("_g_margin_edit");
+    if(prop.isValid()){
+        QMargins m = widget->contentsMargins();
+        QJsonArray margins_arr = {m.left(), m.top(), m.right(), m.bottom()};
+
+        widget_obj["margins"] = margins_arr;
+    }
+
+    // add the widget object to the changes array if there have been changes to the margins
+    if(widget_obj.keys().count() > 1) {
+        changes_arr.append(widget_obj);
+    }
+
+    if(widget->layout()) {
+        this->parseLayoutJson(widget->layout(), changes_arr);
+    }
+}
+
+void MainWindow::parseLayoutJson(QLayout* layout, QJsonArray& changes_arr)
+{
+    // check that the widget has a layout
+    if(! layout) {
+        QString();
+    }
+
+    // test if the widgets margins were changed
+    QJsonObject widget_obj;
+    widget_obj["name"] = layout->objectName();
+
+    QVariant prop = layout->property("_g_margin_edit");
+    if(prop.isValid()){
+        QMargins m = layout->contentsMargins();
+        QJsonArray margins_arr = {m.left(), m.top(), m.right(), m.bottom()};
+        widget_obj["margins"] = margins_arr;
+    }
+
+    // test if the widgets margins were changed
+    prop = layout->property("_g_spacing_edit");
+    if(prop.isValid()){
+        QJsonArray spacing_arr;
+        QString layout_class = layout->metaObject()->className();
+        if(layout_class == "QBoxLayout"){
+            spacing_arr = {qobject_cast<QBoxLayout*>(layout)->spacing()};
+        } else if(layout_class == "QFormLayout"){
+            spacing_arr = {qobject_cast<QFormLayout*>(layout)->horizontalSpacing(),
+                           qobject_cast<QFormLayout*>(layout)->verticalSpacing()};
+        } else if(layout_class == "QGridLayout"){
+            spacing_arr = {qobject_cast<QGridLayout*>(layout)->horizontalSpacing(),
+                           qobject_cast<QGridLayout*>(layout)->verticalSpacing()};
+        } else if(layout_class == "QStackedLayout"){
+            spacing_arr = {qobject_cast<QStackedLayout*>(layout)->spacing()};
+        }
+        widget_obj["spacing"] = spacing_arr;
+    }
+
+    // add the widget object to the changes array if there have been changes to the margin or the spacing
+    if(widget_obj.keys().count() > 1) {
+        changes_arr.append(widget_obj);
+    }
+
+    // loop through the layout
+    for(int i = 0; i < layout->count(); ++i)
+    {
+        QLayoutItem* layout_item = layout->itemAt(i);
+        if(layout_item){
+            if(! layout_item->isEmpty()) {
+                if(layout_item->widget()){
+                    this->parseWidgetJson(layout_item->widget(), changes_arr);
+                }
+                else if (layout_item->layout()) {
+                    this->parseLayoutJson(layout_item->layout(), changes_arr);
+                }
+                else if (layout_item->spacerItem()) {
+//                    QStandardItem* item_spacer_name = new QStandardItem("Spacer");
+//                    QStandardItem* item_spacer_class = new QStandardItem("QSpacerItem");
+//                    item_spacer_name->setEditable(false);
+//                    item_spacer_class->setEditable(false);
+//                    item_layout_name->appendRow({item_spacer_name, item_spacer_class});
+                }
+            }
+        }
+    }
 }
 
