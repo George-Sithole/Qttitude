@@ -2,6 +2,7 @@ Qttitude
 ========
 
 Homepage: http://www.geovariant.com/qttitude
+To download binaries: https://www.pling.com/p/1319480
 
 Introduction
 ------------
@@ -51,6 +52,6 @@ Basically, you have to:
 Supporting the project
 ----------------------
 
-If you want to help improve Qttitude, you can make donations via [patreon](https://patreon/qttitude)
+If you want to help improve Qttitude, you can make donations via [patreon](https://www.patreon.com/qttitude)
 Many thanks!
 
